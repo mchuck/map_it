@@ -1,9 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomepageRoutingModule } from './homepage/homepage-routing.module';
 import { HomepageModule } from './homepage/homepage.module';
 
 @NgModule({
@@ -12,6 +12,7 @@ import { HomepageModule } from './homepage/homepage.module';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     HomepageModule,
     AppRoutingModule
   ],
