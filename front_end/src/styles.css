@@ -1,4 +1,46 @@
 /* You can add global styles to this file, and also import other style files */
+.background-map{
+    background-image: url("../../front_end/src/assets/images/map.jpg");
+    background-repeat: repeat;
+    background-size: cover;
+    box-sizing: border-box;
+    height: calc(100vh - 90px);
+}
+.input-primary{
+    box-sizing:border-box;
+    width: 80%;
+    border: 2px solid #228120;
+    height: 45px;
+    padding: 10px;
+    font-size: 1em;
+}
+
+.flex{
+    display:flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding:80px 20px 20px 20px;
+    align-items: center;
+    overflow: auto;
+    
+}
+
+.button-primary{
+    height:45px;
+    padding: 5px 5px 5px 15px;
+    margin-top: 15px;
+    max-width: 500px;
+    width:80%;
+    font-size: 1em;
+    clear: both;
+    background-color: #228120;
+    color:#fff;
+    border: 1px solid #228120;
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
