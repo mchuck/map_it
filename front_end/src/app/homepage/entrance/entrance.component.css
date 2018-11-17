@@ -1,0 +1,23 @@
+.flex{
+    display:flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding:20px;
+    align-items: center;
+}
+.button-primary{
+    padding: 10px;
+    margin: 10px;
+    max-width: 500px;
+    width:70%;
+    font-size: 1.4em;
+    clear: both;
+    background-color: #228120;
+    color:#fff;
+    border: 1px solid #228120;
+    border-radius:5px;
+}
+.arrow{
+    display:inline-flex;
+    justify-content: flex-end;
+}
