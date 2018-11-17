@@ -8,11 +8,6 @@ import { HomepageService } from '../homepage.service';
 })
 export class AddGroupComponent implements OnInit {
 
-  get nameIsEmpty() {
-    return !this.groupName || this.groupName.length === 0;
-  }
-
-  groupName = '';
   groupId = undefined;
   link = location.host + '/groupView/';
   formSaved = false;
@@ -22,8 +17,8 @@ export class AddGroupComponent implements OnInit {
   ngOnInit() {
   }
 
-  onSave() {
-    this.homeService.createGroup(this.groupName).subscribe((key: string) => {
+  onSave(groupName: string) {
+    this.homeService.createGroup(groupName).subscribe((key: string) => {
       this.link += key;
       this.groupId = key;
       this.formSaved = true;

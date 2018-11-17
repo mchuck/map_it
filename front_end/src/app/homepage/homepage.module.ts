@@ -6,9 +6,10 @@ import { HomepageRoutingModule } from './homepage-routing.module';
 import { EntranceComponent } from './entrance/entrance.component';
 import { AddGroupComponent } from './add-group/add-group.component';
 import { MapModule } from '../map/map.module';
+import { GroupViewComponent } from './group-view/group-view.component';
 
 @NgModule({
-  declarations: [EntranceComponent, AddGroupComponent],
+  declarations: [EntranceComponent, AddGroupComponent, GroupViewComponent],
   imports: [
     CommonModule,
     FormsModule,

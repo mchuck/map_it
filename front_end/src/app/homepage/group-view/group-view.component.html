@@ -1,0 +1,13 @@
+
+<div *ngIf="!userInserted else mapTemp">
+  <input #nameInput type="text" class="input-primary" placeholder="UserName"/>
+  <select #typeInput id="userType">
+    <option value="guide">Guide</option>
+    <option value="normal" selected>Normal</option>
+  </select>
+  <button class="button-primary" (click)="createUser(nameInput.value, typeInput.value)">Join to group <span class="arrow">➞</span></button>
+</div>
+
+<ng-template #mapTemp>
+    <app-map-view></app-map-view>
+</ng-template>
