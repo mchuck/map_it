@@ -24,8 +24,20 @@
     overflow: auto;
     
 }
-
-.button-primary{
+.btn-light{
+	height:45px;
+    padding: 5px 5px 5px 15px;
+    margin-top: 15px;
+    max-width: 500px;
+    width:80%;
+	font-size: 1em;
+	margin-top:20px;
+    display:flex!important;
+    flex-direction: row!important;
+    justify-content: flex-start!important;
+    align-items: center!important;
+}
+.btn-primary{
     height:45px;
     padding: 5px 5px 5px 15px;
     margin-top: 15px;
@@ -33,14 +45,15 @@
     width:80%;
     font-size: 1em;
     clear: both;
-    background-color: #228120;
+    background-color: #228120!important;
     color:#fff;
-    border: 1px solid #228120;
-    display:flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    border: 1px solid #228120!important;;
+    display:flex!important;
+    flex-direction: row!important;
+    justify-content: space-between!important;
+    align-items: center!important;
 }
+
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
