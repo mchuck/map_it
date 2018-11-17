@@ -1,5 +1,10 @@
-<div class="flex">
-    <input class="input-primary" type=text name="nameGroup" placeholder="group name">
-    <button class="button-primary">Save</button>
-
+<div class="flex" *ngIf="!formSaved else successTemp">
+    <input class="input-primary" type=text name="nameGroup" [(ngModel)]="groupName" placeholder="group name">
+    <button class="button-primary" (click)="onSave()" [disabled]="nameIsEmpty">Save</button>
 </div>
+
+<ng-template #successTemp>
+    <div>{{ groupId }}</div>
+    <div>{{ link }}</div>
+    <a href="{{link}}">OPEN</a>
+</ng-template>

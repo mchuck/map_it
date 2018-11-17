@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { HomepageRoutingModule } from './homepage-routing.module';
 import { EntranceComponent } from './entrance/entrance.component';
@@ -10,6 +11,8 @@ import { MapModule } from '../map/map.module';
   declarations: [EntranceComponent, AddGroupComponent],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     MapModule,
     HomepageRoutingModule
   ]
