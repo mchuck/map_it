@@ -72,27 +72,41 @@ export class MapViewComponent implements OnInit, OnDestroy {
     }
 
     onGetLocalizationSuccess(position: Position) {
+        console.log('inites')
         if (this.isLoading) {
             return;
         }
+        console.log('exited')
         this.isLoading = true;
 
         this.mapService.updateLocalization(this.groupName, this.userName, position.coords as Coord)
             .subscribe(res => {
-                for (const user of res.participants) {
-                    const userPosition = user.positions.slice(-1)[0];
-                    this.markers.push(marker([userPosition.lat, userPosition.lon], { icon: this.getIconSVG(user.type) })
-                        .bindPopup(this.createMarkerPopupContent(user)));
-                }
+                this.updateMarkers(res.participants)
                 // this.getIcon(user.type)
                 if (this.markersLayer) {
-                    this.markersLayer.remove();
+                    console.log('removed')
+                    this.mapL.removeLayer(this.markersLayer);
                 }
 
-                this.markersLayer = layerGroup(this.markers).addTo(this.mapL);
-                this.suitMapToMarkers();
+                if (this.markers) {
+                    this.markersLayer = layerGroup(this.markers).addTo(this.mapL);
+                    this.suitMapToMarkers();
+                }
                 this.isLoading = false;
             });
+    }
+
+    updateMarkers(participants: any) {
+        this.markers = [];
+        for (const user of participants) {
+            const userPosition = user.positions.slice(-1)[0];
+            if (!userPosition) {
+                continue;
+            }
+            this.markers.push(marker([userPosition.lat, userPosition.lon],
+                { icon: this.getIconSVG(user.type) })
+                .bindPopup(this.createMarkerPopupContent(user)));
+        }
     }
 
     unsubscribeUser(groupKey: string, userName: string) {
