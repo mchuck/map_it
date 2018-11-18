@@ -106,7 +106,10 @@ export class MapViewComponent implements OnInit, OnDestroy {
     }
 
     createMarkerPopupContent(user) {
-        return `<b>${user.name}</b>`;
+        if(user.phone){return `&#128100 <b>${user.name}</b> </br>&#9742 ${user.phone}`}
+        else{
+            return `&#128100 <b>${user.name}</b>`;
+        }
     }
 
     ngOnDestroy(): void {
