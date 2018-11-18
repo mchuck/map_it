@@ -2,7 +2,6 @@
     padding-top: 40px;
 }
 .title{
-    margin-top:20px;
     font-size:1.1em;
     font-weight: 800;
 }
@@ -20,6 +19,20 @@
     margin-left:20px;
     margin-top:20px;
     margin-bottom: 20px;
+}
+.position-zoom{
+    position: fixed;
+    z-index: 999;
+    bottom: 80px;
+    left: 20px;
+    color: #fff;
+    width: 40px;
+    height:40px;
+    border-radius:50%;
+    background-color: #FF7100;
+    -webkit-box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.12);
+    -moz-box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.12);
+    box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.12);
 }
 .floating {
     position: fixed;
