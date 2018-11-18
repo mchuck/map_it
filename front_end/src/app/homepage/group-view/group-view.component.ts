@@ -40,6 +40,10 @@ export class GroupViewComponent implements OnInit {
         this.userType = type;
     }
 
+    zoomIt() {
+        this.mapView.suitMapToMarkers();
+    }
+
     onUnsub() {
         this.mapView.unsubscribeUser(this.groupKey, this.userName).subscribe(_ => {
             this.router.navigate(['/']);

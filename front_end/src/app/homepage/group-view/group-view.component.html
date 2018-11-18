@@ -22,5 +22,6 @@
 
 <ng-template #mapTemp>
   <app-map-view #mapView [groupName]="groupKey" [userName]="userName" [userType]="userType"></app-map-view>
+  <button class="btn btn-primary position-zoom" (click)="zoomIt()"><i class="fas fa-location-arrow fa-sm"></i></button>
   <button class="btn btn-primary floating" (click)="onUnsub()"><i class="fas fa-arrow-left"></i></button>
 </ng-template>
