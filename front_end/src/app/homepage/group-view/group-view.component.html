@@ -1,5 +1,5 @@
 
-<div *ngIf="userInserted else mapTemp">
+<div *ngIf="!userInserted else mapTemp">
   <input #nameInput type="text" class="input-primary" placeholder="UserName"/>
   <select #typeInput id="userType">
     <option value="guide">Guide</option>
