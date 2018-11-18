@@ -1,0 +1,14 @@
+<div class="background-map">
+      <div class="flex paddingTop">
+          <div class="error-class" *ngIf="messageError" >
+              <div class="text-error">
+                  {{messageError}}
+              </div>
+          </div>   
+        <input #nameInput class="input-primary" type=text name="idGroup" placeholder="group id...">
+        <button type="submit" class="btn btn-primary" (click)="onJoinGroup(nameInput.value)">Join existing group <span class="arrow">➞</span></button>
+       <a routerLink="/add" routerLinkActive="active" class="new-group">...or add a new one</a>
+  </div>
+</div>
+
+
