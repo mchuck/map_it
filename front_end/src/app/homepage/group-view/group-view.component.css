@@ -1,0 +1,20 @@
+.paddingTop{
+    padding-top: 40px;
+}
+.title{
+    margin-top:20px;
+    font-size:1.1em;
+    font-weight: 800;
+}
+.chooseType{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width:100%;
+}
+.cusSelect{
+    margin-left:20px;
+    margin-top:20px;
+    margin-bottom: 20px;
+}
