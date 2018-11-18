@@ -5,7 +5,6 @@
 }
 .copy-card{
     padding:10px 10px 10px 10px;
-    width: auto;
     height: 45px;
     color: #fff;
     background-color: #383838;
@@ -20,6 +19,7 @@
     font-size: 0.8em;
     border-width:0px !important;
     height: 45px;
+    
 }
 .title{
     margin-top:20px;
