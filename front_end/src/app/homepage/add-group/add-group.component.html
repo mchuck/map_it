@@ -1,5 +1,5 @@
 <div class="background-map">
-  <div class="flex" *ngIf="!formSaved else successTemp">
+  <div class="flex paddingTop" *ngIf="!formSaved else successTemp">
     <input #nameInput class="form-control" class="input-primary" type=text name="nameGroup" [(ngModel)]="groupName"
       placeholder="group name">
     <button class="btn btn-primary" type="submit" (click)="onSave(nameInput.value)" [disabled]="nameInput.value === ''">Save</button>
@@ -7,7 +7,7 @@
   </div>
 </div>
 <ng-template #successTemp>
-  <div class="titleCode">
+  <div class="titleCode paddingTop">
     <div class="title">Group id: </div>
     <div class="copy-group">
       <input class="copy-card" type="text" #inputCode1 value="{{ groupId }}" readonly>
