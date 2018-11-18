@@ -13,100 +13,104 @@ const iconNormal = divIcon({ className: 'div-icon normal' });
 const iconGuide = divIcon({ className: 'div-icon guide' });
 
 const iconSVG = icon({
-  iconUrl: 'assets/images/marker.svg',
-  iconSize: [50, 50]
+    iconUrl: 'assets/images/marker.svg',
+    iconSize: [50, 50]
 });
 
 const iconSVGGuide = icon({
-  iconUrl: 'assets/images/marker-guide.svg',
-  iconSize: [50, 50]
+    iconUrl: 'assets/images/marker-guide.svg',
+    iconSize: [50, 50]
 });
 
 @Component({
-  selector: 'app-map-view',
-  templateUrl: './map-view.component.html',
-  styleUrls: ['./map-view.component.css']
+    selector: 'app-map-view',
+    templateUrl: './map-view.component.html',
+    styleUrls: ['./map-view.component.css']
 })
 export class MapViewComponent implements OnInit, OnDestroy {
 
-  @Input() groupName: string;
-  @Input() userName: string;
-  @Input() userType: 'guide' | 'normal';
+    @Input() groupName: string;
+    @Input() userName: string;
+    @Input() userType: 'guide' | 'normal';
 
-  @ViewChild('mapContainer') mapContainer: ElementRef;
+    @ViewChild('mapContainer') mapContainer: ElementRef;
 
-  mapL: Map = undefined;
+    mapL: Map = undefined;
 
-  markers: Marker<any>[] = [];
+    markers: Marker<any>[] = [];
 
-  markersLayer: LayerGroup<any>;
+    markersLayer: LayerGroup<any>;
 
-  leyer: any;
+    leyer: any;
 
-  timer: any;
 
-  constructor(private mapService: MapService, private cred: MapCredentials, private locService: LocalizationService) { }
+    private localizationHandler: any;
+    private isLoading = false;
 
-  ngOnInit() {
-    this.initMap();
-    this.timer = setInterval(() => this.getLocalization((p) => this.onGetLocalizationSuccess(p)), 1000);
-  }
+    constructor(private mapService: MapService, private cred: MapCredentials, private locService: LocalizationService) { }
 
-  initMap() {
-    this.mapL = map(this.mapContainer.nativeElement)
-    tileLayer(`https://1.base.maps.api.here.com/maptile/2.1/maptile/newest/` +
-      `reduced.day/{z}/{x}/{y}/256/png8?app_id=pYcVUdzXaKUNelaYX98n&app_code=e4Nq7y32dS96gUbBFbNllg`)
-      .addTo(this.mapL);
-  }
+    ngOnInit() {
+        this.initMap();
+        this.localizationHandler = this.locService.getLocalization(
+            (p) => this.onGetLocalizationSuccess(p),
+            error => console.log(error));
+    }
 
-  getIcon(type: 'guide' | 'normal') {
-    return type === 'guide' ? iconGuide : iconNormal;
-  }
+    initMap() {
+        this.mapL = map(this.mapContainer.nativeElement)
+        tileLayer(`https://1.base.maps.api.here.com/maptile/2.1/maptile/newest/` +
+            `reduced.day/{z}/{x}/{y}/256/png8?app_id=pYcVUdzXaKUNelaYX98n&app_code=e4Nq7y32dS96gUbBFbNllg`)
+            .addTo(this.mapL);
+    }
 
-  getIconSVG(type: 'guide' | 'normal') {
-    return type === 'guide' ? iconSVGGuide : iconSVG;
-  }
+    getIcon(type: 'guide' | 'normal') {
+        return type === 'guide' ? iconGuide : iconNormal;
+    }
 
-  onGetLocalizationSuccess(position: Position) {
+    getIconSVG(type: 'guide' | 'normal') {
+        return type === 'guide' ? iconSVGGuide : iconSVG;
+    }
 
-    this.mapService.updateLocalization(this.groupName, this.userName, position.coords as Coord)
-      .subscribe(res => {
-
-        for (const user of res.participants) {
-          const userPosition = user.positions.slice(-1)[0];
-          this.markers.push(marker([userPosition.lat, userPosition.lon], { icon: this.getIconSVG(user.type) })
-            .bindPopup(this.createMarkerPopupContent(user)));
+    onGetLocalizationSuccess(position: Position) {
+        if (this.isLoading) {
+            return;
         }
-        // this.getIcon(user.type)
-        if (this.markersLayer) {
-          this.markersLayer.remove();
-        }
+        this.isLoading = true;
 
-        this.markersLayer = layerGroup(this.markers).addTo(this.mapL);
-        this.suitMapToMarkers();
-      });
-  }
+        this.mapService.updateLocalization(this.groupName, this.userName, position.coords as Coord)
+            .subscribe(res => {
+                for (const user of res.participants) {
+                    const userPosition = user.positions.slice(-1)[0];
+                    this.markers.push(marker([userPosition.lat, userPosition.lon], { icon: this.getIconSVG(user.type) })
+                        .bindPopup(this.createMarkerPopupContent(user)));
+                }
+                // this.getIcon(user.type)
+                if (this.markersLayer) {
+                    this.markersLayer.remove();
+                }
 
-  getLocalization(fn: PositionCallback) {
-    this.locService.getLocalization(fn, error => console.log(error));
-  }
+                this.markersLayer = layerGroup(this.markers).addTo(this.mapL);
+                this.suitMapToMarkers();
+                this.isLoading = false;
+            });
+    }
 
-  unsubscribeUser(groupKey: string, userName: string) {
-    return this.mapService.unsubscribeFromGroup(groupKey, userName);
-  }
+    unsubscribeUser(groupKey: string, userName: string) {
+        return this.mapService.unsubscribeFromGroup(groupKey, userName);
+    }
 
-  suitMapToMarkers() {
-    const group = featureGroup(this.markers);
+    suitMapToMarkers() {
+        const group = featureGroup(this.markers);
 
-    this.mapL.fitBounds(group.getBounds());
-  }
+        this.mapL.fitBounds(group.getBounds());
+    }
 
-  createMarkerPopupContent(user) {
-    return `<b>${user.name}</b>`;
-  }
+    createMarkerPopupContent(user) {
+        return `<b>${user.name}</b>`;
+    }
 
-  ngOnDestroy(): void {
-    clearInterval(this.timer);
-    this.timer = undefined;
-  }
+    ngOnDestroy(): void {
+        this.unsubscribeUser(this.groupName, this.userName);
+        this.locService.stopLocaliztion(this.localizationHandler);
+    }
 }
