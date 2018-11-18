@@ -179,7 +179,7 @@ export class MapViewComponent implements OnInit, OnDestroy {
 
         for (const res of response) {
             const arr = res.response.route[0].shape.map(x => x.split(','));
-            this.paths.push(polyline(arr, getOptions(res.requestId)));
+            this.paths.push(polyline(arr, getOptions(res.response.requestId)));
         }
 
         this.pathsLayer = layerGroup(this.paths).addTo(this.mapL);
