@@ -9,3 +9,19 @@
 .paddingTop{
     padding-top:60px;
 }
+.error-class{
+    width: 100%;
+    height: auto;
+    max-width: 500px;
+    width:80%;
+    word-break: break-all;
+    margin-bottom: 20px;
+}
+.text-error{
+    border: 2px solid #FF0000;
+    color: #1a1a1a;
+    font-size: 0.9;
+    font-weight: bold;
+    background-color: #ffb2b2;
+    padding: 5px;
+}

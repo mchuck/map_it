@@ -15,12 +15,17 @@ export class EntranceComponent implements OnInit {
     private router: Router,
     private host: HomepageService) { }
 
+
+    private messageError: string;
   ngOnInit() {
   }
 
   onJoinGroup(value: string) {
     this.homeService.getGroup(value).subscribe((name: GroupInformation) => {
       this.router.navigate(['/groupview', value]);
-    }, error => alert(error.message || error));
-  }
+    }, error => {
+      this.messageError = error.error || "Unknown error";
+      setTimeout(()=> this.messageError=null, 3000)
+    });
+}
 }
