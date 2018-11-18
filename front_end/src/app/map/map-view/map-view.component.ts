@@ -7,6 +7,7 @@ import { LocalizationService } from 'src/app/localization.service';
 import { Coord } from '../models/coords';
 
 import { forkJoin } from 'rxjs';
+import { resource } from 'selenium-webdriver/http';
 
 const iconNormal = divIcon({ className: 'div-icon normal' });
 
@@ -96,7 +97,7 @@ export class MapViewComponent implements OnInit, OnDestroy {
             .subscribe(res => {
 
                 const guidePosition = this.getGuidePosition(res.participants);
-                const otherPositions = res.participants.filter(u => u.type !== 'guide').map(u => this.getPositionFormUser(u));
+                const otherPositions = res.participants.filter(u => u.type !== 'guide').map(u => this.getPositionAndNameFrommUser(u));
 
                 if (guidePosition) {
                     const observablesArr = [];
@@ -113,7 +114,8 @@ export class MapViewComponent implements OnInit, OnDestroy {
                             {
                                 latitude: pos.lat,
                                 longitude: pos.lon
-                            }
+                            },
+                            `${guidePosition.name},${pos.name}`
                         ));
                     }
 
@@ -128,11 +130,11 @@ export class MapViewComponent implements OnInit, OnDestroy {
 
                 if (this.markers) {
                     this.markersLayer = layerGroup(this.markers).addTo(this.mapL);
-                    if(!this.noBounding){
-                       this.suitMapToMarkers();
-                       this.noBounding=true; 
+                    if (!this.noBounding) {
+                        this.suitMapToMarkers();
+                        this.noBounding = true;
                     }
-                    
+
                 }
                 this.isLoading = false;
             }, _ => this.isLoading = false);
@@ -141,12 +143,12 @@ export class MapViewComponent implements OnInit, OnDestroy {
     getGuidePosition(participants: any[]) {
         const user = participants.find(u => u.type === 'guide') || null;
 
-        return this.getPositionFormUser(user);
+        return this.getPositionAndNameFrommUser(user);
     }
 
-    getPositionFormUser(user) {
+    getPositionAndNameFrommUser(user) {
         if (user && user.positions.length > 0) {
-            return user.positions.slice(-1)[0];
+            return { ...user.positions.slice(-1)[0], name: user.name };
         }
 
         return null;
@@ -156,13 +158,28 @@ export class MapViewComponent implements OnInit, OnDestroy {
 
         this.paths = [];
 
+        const mineOptions = {
+            color: '#FF7100',
+            weight: 3
+        };
+
+        const otherOptions = {
+            color: '#909090',
+            weight: 2
+        };
+
+        const getOptions = (responseId: string) => {
+            return responseId.indexOf(this.userName) > -1 ? mineOptions : otherOptions;
+        };
+
         if (this.pathsLayer) {
             this.mapL.removeLayer(this.pathsLayer);
         }
 
+
         for (const res of response) {
             const arr = res.response.route[0].shape.map(x => x.split(','));
-            this.paths.push(polyline(arr, { color: '#FF7100', weight: 2 }));
+            this.paths.push(polyline(arr, getOptions(res.responseId)));
         }
 
         this.pathsLayer = layerGroup(this.paths).addTo(this.mapL);
