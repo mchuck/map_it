@@ -27,7 +27,6 @@ export class GroupViewComponent implements OnInit {
   }
 
   createUser(name: string) {
-    debugger
     this.userName = name;
     this.hostService.joinToGroup({ name: name, type: this.userType }, this.groupKey).subscribe(res => {
       this.userInserted = true;
@@ -35,7 +34,7 @@ export class GroupViewComponent implements OnInit {
   }
 
   setType(type: 'normal' | 'guide') {
-    this.userName = type;
+    this.userType = type;
   }
 
   onUnsub() {

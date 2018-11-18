@@ -11,8 +11,8 @@ import { MapModule } from './map/map.module';
 
 export const HereMapCredetntials: MapCredentials = {
   ApiURL: 'https://image.maps.api.here.com/mia/1.6/mapview',
-  AppID: 'X9q6IgOWg1KqUZlBV7Us',
-  AppCode: 'HFeE36t-oaTU8YOwV2AEmQ'
+  AppID: 'pYcVUdzXaKUNelaYX98n',
+  AppCode: 'e4Nq7y32dS96gUbBFbNllg'
 };
 
 @NgModule({
