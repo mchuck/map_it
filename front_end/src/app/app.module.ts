@@ -9,11 +9,11 @@ import { HomepageModule } from './homepage/homepage.module';
 import { MapCredentials } from './map/models';
 import { MapModule } from './map/map.module';
 
-export const HereMapCredetntials: MapCredentials = {
-  ApiURL: 'https://image.maps.api.here.com/mia/1.6/mapview',
-  AppID: 'OQ2vWYnW804a4iRk4Nty',
-  AppCode: 'BjatFZPIopmmqaDftAEjsw'
-};
+export const HereMapCredetntials: MapCredentials = new MapCredentials({
+  ApiURL: 'https://1.base.maps.api.here.com/maptile/2.1/maptile/newest/reduced.day/{z}/{x}/{y}/256/png8',
+  AppID: 'pYcVUdzXaKUNelaYX98n',
+  AppCode: 'e4Nq7y32dS96gUbBFbNllg'
+});
 
 @NgModule({
   declarations: [

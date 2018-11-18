@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  // API: 'http://192.168.43.52:5000',
+  //API: 'http://192.168.43.52:5000',
   API: 'https://hikr-api.azurewebsites.net',
   production: false
 };

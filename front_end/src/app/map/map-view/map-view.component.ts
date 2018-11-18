@@ -1,12 +1,12 @@
 import { Component, OnInit, ElementRef, ViewChild, OnDestroy, Input } from '@angular/core';
 import { MapService } from '../map.service';
 
-import { map, Map, tileLayer, marker, divIcon, Marker, icon, Layer, layerGroup, LayerGroup, featureGroup } from 'leaflet';
+import { map, Map, tileLayer, marker, divIcon, Marker, icon, Layer, layerGroup, LayerGroup, featureGroup, polyline } from 'leaflet';
 import { MapCredentials } from '../models';
 import { LocalizationService } from 'src/app/localization.service';
 import { Coord } from '../models/coords';
 
-import * as L from 'leaflet';
+import { forkJoin } from 'rxjs';
 
 const iconNormal = divIcon({ className: 'div-icon normal' });
 
@@ -43,8 +43,10 @@ export class MapViewComponent implements OnInit, OnDestroy {
     mapL: Map = undefined;
 
     markers: Marker<any>[] = [];
+    paths: any[] = [];
 
     markersLayer: LayerGroup<any>;
+    pathsLayer: LayerGroup<any>;
 
     leyer: any;
 
@@ -63,9 +65,7 @@ export class MapViewComponent implements OnInit, OnDestroy {
 
     initMap() {
         this.mapL = map(this.mapContainer.nativeElement)
-        tileLayer(`https://1.base.maps.api.here.com/maptile/2.1/maptile/newest/` +
-            `reduced.day/{z}/{x}/{y}/256/png8?app_id=pYcVUdzXaKUNelaYX98n&app_code=e4Nq7y32dS96gUbBFbNllg`)
-            .addTo(this.mapL);
+        this.mapService.getTileLayer().addTo(this.mapL);
 
         this.locService.getLocalization((p) => {
             this.currentPosition = p;
@@ -93,6 +93,33 @@ export class MapViewComponent implements OnInit, OnDestroy {
 
         this.mapService.updateLocalization(this.groupName, this.userName, position.coords as Coord)
             .subscribe(res => {
+
+                const guidePosition = this.getGuidePosition(res.participants);
+                const otherPositions = res.participants.filter(u => u.type !== 'guide').map(u => this.getPositionFormUser(u));
+
+                if (guidePosition) {
+                    const observablesArr = [];
+                    for (const pos of otherPositions) {
+
+                        // tslint:disable-next-line:curly
+                        if (!pos) continue;
+
+                        observablesArr.push(this.mapService.getRoute(
+                            {
+                                latitude: guidePosition.lat,
+                                longitude: guidePosition.lon
+                            },
+                            {
+                                latitude: pos.lat,
+                                longitude: pos.lon
+                            }
+                        ));
+                    }
+
+                    forkJoin(observablesArr)
+                        .subscribe(response => this.drawPath(response));
+                }
+
                 this.updateMarkers(res.participants);
                 if (this.markersLayer) {
                     this.mapL.removeLayer(this.markersLayer);
@@ -106,6 +133,35 @@ export class MapViewComponent implements OnInit, OnDestroy {
             }, _ => this.isLoading = false);
     }
 
+    getGuidePosition(participants: any[]) {
+        const user = participants.find(u => u.type === 'guide') || null;
+
+        return this.getPositionFormUser(user);
+    }
+
+    getPositionFormUser(user) {
+        if (user && user.positions.length > 0) {
+            return user.positions.slice(-1)[0];
+        }
+
+        return null;
+    }
+
+    drawPath(response: any[]) {
+
+        this.paths = [];
+
+        if (this.pathsLayer) {
+            this.mapL.removeLayer(this.pathsLayer);
+        }
+
+        for (const res of response) {
+            const arr = res.response.route[0].shape.map(x => x.split(','));
+            this.paths.push(polyline(arr, { color: '#FF7100', weight: 2 }));
+        }
+
+        this.pathsLayer = layerGroup(this.paths).addTo(this.mapL);
+    }
     updateMarkers(participants: any) {
         this.markers = [];
         for (const user of participants) {
