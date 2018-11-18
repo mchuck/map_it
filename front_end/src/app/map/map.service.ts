@@ -21,4 +21,8 @@ export class MapService {
     });
   }
 
+  unsubscribeFromGroup(groupKey: string, userName: string) {
+    return this.http.delete<any>(environment.API + '/group/' + groupKey + '/participant/' + userName);
+  }
+
 }

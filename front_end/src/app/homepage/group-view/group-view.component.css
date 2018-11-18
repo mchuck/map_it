@@ -18,3 +18,12 @@
     margin-top:20px;
     margin-bottom: 20px;
 }
+.floating {
+    position: fixed;
+    z-index: 999;
+    bottom: 20px;
+    left: 20px;
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+}
