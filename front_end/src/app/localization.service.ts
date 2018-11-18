@@ -7,7 +7,7 @@ export class LocalizationService {
 
     constructor() { }
 
-    getLocalizatino(fn: PositionCallback, error: PositionErrorCallback) {
+    getLocalization(fn: PositionCallback, error: PositionErrorCallback) {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(fn, error);
         } else {

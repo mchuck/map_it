@@ -20,7 +20,7 @@ export class HomepageService {
 
   getGroup(key: string): Observable<GroupInformation> {
     if (!key || key.length === 0) {
-      return throwError({ error: { message: 'Value cant be empty!' } });
+      return throwError({ error: 'Value cant be empty!' });
     }
     return this.http.get<GroupInformation>(environment.API + '/group/' + key);
   }

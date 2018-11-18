@@ -43,7 +43,6 @@ export class MapViewComponent implements OnInit, OnDestroy {
 
   leyer: any;
 
-
   private localizationHandler: any;
   private isLoading = false;
 
@@ -60,7 +59,7 @@ export class MapViewComponent implements OnInit, OnDestroy {
       `reduced.day/{z}/{x}/{y}/256/png8?app_id=pYcVUdzXaKUNelaYX98n&app_code=e4Nq7y32dS96gUbBFbNllg`)
       .addTo(this.mapL);
 
-    this.locService.getLocalizatino((p) => this.onGetLocalizationSuccess(p),
+    this.locService.getLocalization((p) => this.onGetLocalizationSuccess(p),
       error => console.log(error));
 
     this.localizationHandler = this.locService.watchPosition(
@@ -86,7 +85,7 @@ export class MapViewComponent implements OnInit, OnDestroy {
 
     this.mapService.updateLocalization(this.groupName, this.userName, position.coords as Coord)
       .subscribe(res => {
-        this.updateMarkers(res.participants)
+        this.updateMarkers(res.participants);
         // this.getIcon(user.type)
         if (this.markersLayer) {
           console.log('removed')
