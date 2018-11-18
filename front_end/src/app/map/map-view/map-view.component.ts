@@ -168,8 +168,8 @@ export class MapViewComponent implements OnInit, OnDestroy {
             weight: 2
         };
 
-        const getOptions = (responseId: string) => {
-            return responseId.indexOf(this.userName) > -1 ? mineOptions : otherOptions;
+        const getOptions = (requestId: string) => {
+            return requestId.indexOf(this.userName) > -1 ? mineOptions : otherOptions;
         };
 
         if (this.pathsLayer) {
@@ -179,7 +179,7 @@ export class MapViewComponent implements OnInit, OnDestroy {
 
         for (const res of response) {
             const arr = res.response.route[0].shape.map(x => x.split(','));
-            this.paths.push(polyline(arr, getOptions(res.responseId)));
+            this.paths.push(polyline(arr, getOptions(res.requestId)));
         }
 
         this.pathsLayer = layerGroup(this.paths).addTo(this.mapL);
