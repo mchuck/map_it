@@ -25,3 +25,25 @@
     background-color: #ffb2b2;
     padding: 5px;
 }
+.text-h{
+    color:#1a1a1a;
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: normal;
+    font-size: 3.8rem;
+    width:80%;
+    margin-bottom:20px;
+    max-width: 500px;
+}
+.text{
+    color:#909090;
+    font-weight: 600;
+    line-height: 1.5;
+    letter-spacing: normal;
+    font-size: 1.5rem;
+    width:80%;
+    margin-bottom:20px;
+    word-wrap: break-word;
+    max-width: 500px;
+    text-align: left;
+}
