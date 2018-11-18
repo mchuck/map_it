@@ -7,7 +7,15 @@ export class LocalizationService {
 
     constructor() { }
 
-    getLocalization(fn: PositionCallback, error: PositionErrorCallback) {
+    getLocalizatino(fn: PositionCallback, error: PositionErrorCallback) {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(fn, error);
+        } else {
+            console.log('nie ma lokazliacji');
+        }
+    }
+
+    watchPosition(fn: PositionCallback, error: PositionErrorCallback) {
         if (navigator.geolocation) {
             return navigator.geolocation.watchPosition(fn, error);
         } else {

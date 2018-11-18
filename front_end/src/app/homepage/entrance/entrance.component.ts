@@ -23,8 +23,8 @@ export class EntranceComponent implements OnInit {
         this.homeService.getGroup(value).subscribe((name: GroupInformation) => {
             this.router.navigate(['/groupview', value]);
         }, error => {
-          console.log(error);
-            this.messageError = error.message || 'Unknown error';
+            console.log(error);
+            this.messageError = error.error || 'Unknown error';
             setTimeout(() => this.messageError = null, 3000);
         });
     }
