@@ -9,24 +9,28 @@ import { HomepageService } from '../homepage.service';
 })
 export class GroupViewComponent implements OnInit {
 
-  groupName: string;
+  groupKey: string;
 
   constructor(private route: ActivatedRoute, private hostService: HomepageService) {
-    this.groupName = this.route.snapshot.paramMap.get('name');
+    this.groupKey = this.route.snapshot.paramMap.get('name');
   }
 
   userName = '';
-  userType: 'normal' | 'guide';
+  userType: 'normal' | 'guide' = 'normal';
 
   userInserted = false;
 
   ngOnInit() {
   }
 
-  createUser(name: string, type: string ) {
-    this.hostService.joinToGroup({name: name, type: type}, this.groupName).subscribe(res => {
+  createUser(name: string) {
+    this.userName = name;
+    this.hostService.joinToGroup({ name: name, type: this.userType }, this.groupKey).subscribe(res => {
       this.userInserted = true;
-    }, error => alert(error.message || error ));
+    }, error => alert(error.message || error));
   }
 
+  setType(type: 'normal' | 'guide') {
+    this.userName = type;
+  }
 }

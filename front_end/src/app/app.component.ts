@@ -10,11 +10,7 @@ import { LocalizationService } from './localization.service';
 export class AppComponent implements OnInit {
   title = 'haker';
   ngOnInit(): void {
-    this.locService.getLocalization(this.onFN, this.onError);
-  }
-
-  private onFN(loc) {
-    console.log(loc);
+    this.locService.getLocalization(_ => {}, this.onError);
   }
 
   private onError(error) {

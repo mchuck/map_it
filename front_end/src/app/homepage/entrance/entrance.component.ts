@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HomepageService } from '../homepage.service';
 import { Router } from '@angular/router';
+import { GroupInformation } from '../models/new-group';
 
 @Component({
   selector: 'app-entrance',
@@ -9,12 +10,17 @@ import { Router } from '@angular/router';
 })
 export class EntranceComponent implements OnInit {
 
-  constructor(private homeService: HomepageService, private router: Router) { }
+  constructor(
+    private homeService: HomepageService,
+    private router: Router,
+    private host: HomepageService) { }
 
   ngOnInit() {
   }
 
   onJoinGroup(value: string) {
-    this.router.navigate(['/groupview', value]);
+    this.homeService.getGroup(value).subscribe((name: GroupInformation) => {
+      this.router.navigate(['/groupview', value]);
+    }, error => alert(error.message || error));
   }
 }

@@ -6,15 +6,15 @@
   <div class="chooseType">
   <div class="title">Role: </div>
   <div class="btn-group mr-2 cusSelect" role="group" #typeInput aria-label="First group">
-      <button type="button" class="btn btn-success">Guide</button>
-      <button type="button" class="btn btn-success">Normal</button>
+      <button type="button" class="btn btn-success" (click)="setType('guide')">Guide</button>
+      <button type="button" class="btn btn-success" (click)="setType('normal')">Normal</button>
     </div>
   </div>
-  <button type ="submit" class="btn btn-primary" (click)="createUser(nameInput.value, typeInput.value)">Join to group <span class="arrow">➞</span></button>
+  <button type ="submit" class="btn btn-primary" (click)="createUser(nameInput.value)">Join to group <span class="arrow">➞</span></button>
 </div>
 </div>
 </ng-container>
 
 <ng-template #mapTemp>
-    <app-map-view></app-map-view>
+    <app-map-view [groupName]="groupKey" [userName]="userName"></app-map-view>
 </ng-template>

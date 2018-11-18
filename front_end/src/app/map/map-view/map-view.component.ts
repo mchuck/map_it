@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, OnDestroy, Input } from '@angular/core';
 import { MapService } from '../map.service';
 
 import { map, Map, tileLayer } from 'leaflet';
@@ -11,7 +11,10 @@ import { Coord } from '../models/coords';
   templateUrl: './map-view.component.html',
   styleUrls: ['./map-view.component.css']
 })
-export class MapViewComponent implements OnInit {
+export class MapViewComponent implements OnInit, OnDestroy {
+
+  @Input() groupName: string;
+  @Input() userName: string;
 
   @ViewChild('mapContainer') mapContainer: ElementRef;
 
@@ -19,16 +22,19 @@ export class MapViewComponent implements OnInit {
 
   mapL: Map = undefined;
 
+  timer: any;
+
   constructor(private mapService: MapService, private cred: MapCredentials, private locService: LocalizationService) { }
 
   ngOnInit() {
-    this.locService.getLocalization((p) => this.onGetLocalizationSuccess(p), error => console.log(error));
+    this.getLocalization((p) => this.initMap(p.coords as Coord));
+
+    this.timer = setInterval(() => this.getLocalization((p) => this.onGetLocalizationSuccess(p)), 1000);
   }
 
-  fetchMap(startingCoord: Coord) {
+  initMap(startingCoord: Coord) {
 
     this.mapL = map(this.mapContainer.nativeElement).setView([startingCoord.latitude, startingCoord.longitude], 15);
-
     tileLayer(`https://1.base.maps.api.here.com/maptile/2.1/maptile/newest/` +
       `reduced.day/{z}/{x}/{y}/256/png8?app_id=pYcVUdzXaKUNelaYX98n&app_code=e4Nq7y32dS96gUbBFbNllg`)
       .addTo(this.mapL);
@@ -36,6 +42,17 @@ export class MapViewComponent implements OnInit {
   }
 
   onGetLocalizationSuccess(position: Position) {
-    this.fetchMap(position.coords as Coord);
+
+    this.mapService.updateLocalization(this.groupName, this.userName, position.coords as Coord).subscribe(res => console.log(res));
+    // this.fetchMap(position.coords as Coord);
+  }
+
+  getLocalization(fn: PositionCallback) {
+    this.locService.getLocalization(fn, error => console.log(error));
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.timer);
+    this.timer = undefined;
   }
 }
