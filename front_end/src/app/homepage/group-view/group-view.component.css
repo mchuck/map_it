@@ -13,6 +13,9 @@
     align-items: center;
     width:100%;
 }
+.btn-warning{
+    background-color: #FF7100!important;
+}
 .cusSelect{
     margin-left:20px;
     margin-top:20px;
@@ -27,7 +30,7 @@
     width: 40px;
     height:40px;
     border-radius:50%;
-    background-color: #228120;
+    background-color: #FF7100;
     -webkit-box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.12);
     -moz-box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.12);
     box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.12);

@@ -5,8 +5,8 @@
       <div class="chooseType">
         <div class="title">Role: </div>
         <div class="btn-group mr-2 cusSelect" role="group" #typeInput aria-label="First group">
-          <button type="button" class="btn btn-success" (click)="setType('guide')">Guide</button>
-          <button type="button" class="btn btn-success" (click)="setType('normal')">Normal</button>
+          <button type="button" class="btn btn-warning" (click)="setType('guide')">Guide</button>
+          <button type="button" class="btn btn-warning" (click)="setType('normal')">Normal</button>
         </div>
       </div>
       <button type="submit" class="btn btn-primary" [disabled]="!userName || userName == ''" (click)="createUser()">Join
