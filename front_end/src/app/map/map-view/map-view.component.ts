@@ -52,6 +52,7 @@ export class MapViewComponent implements OnInit, OnDestroy {
     private localizationHandler: any;
     private isLoading = false;
     private timer: any;
+    public locationPending = true;
 
     constructor(private mapService: MapService, private cred: MapCredentials, private locService: LocalizationService) { }
 
@@ -66,7 +67,10 @@ export class MapViewComponent implements OnInit, OnDestroy {
             `reduced.day/{z}/{x}/{y}/256/png8?app_id=pYcVUdzXaKUNelaYX98n&app_code=e4Nq7y32dS96gUbBFbNllg`)
             .addTo(this.mapL);
 
-        this.locService.getLocalization((p) => { this.currentPosition = p; },
+        this.locService.getLocalization((p) => {
+            this.currentPosition = p;
+            this.locationPending = false;
+        },
             error => console.log(error));
 
         this.localizationHandler = this.locService.watchPosition(

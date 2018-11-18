@@ -1,4 +1,8 @@
-<div  id="mapid" #mapContainer></div>
+<ng-container *ngIf="locationPending">
+  <div class="lds-ripple"><div></div><div></div></div>
+</ng-container>
+<div id="mapid" [style.visibility]="locationPending ? 'hidden':'visible'" #mapContainer></div>
+
 <!-- 
 <div *ngIf="map" >
   <img [src]="map" style="height: 100%"/>
