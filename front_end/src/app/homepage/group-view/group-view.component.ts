@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HomepageService } from '../homepage.service';
+import { MapViewComponent } from 'src/app/map/map-view/map-view.component';
 
 @Component({
   selector: 'app-group-view',
@@ -11,7 +12,9 @@ export class GroupViewComponent implements OnInit {
 
   groupKey: string;
 
-  constructor(private route: ActivatedRoute, private hostService: HomepageService) {
+  @ViewChild('mapView') mapView: MapViewComponent;
+
+  constructor(private route: ActivatedRoute, private hostService: HomepageService, private router: Router) {
     this.groupKey = this.route.snapshot.paramMap.get('name');
   }
 
@@ -24,6 +27,7 @@ export class GroupViewComponent implements OnInit {
   }
 
   createUser(name: string) {
+    debugger
     this.userName = name;
     this.hostService.joinToGroup({ name: name, type: this.userType }, this.groupKey).subscribe(res => {
       this.userInserted = true;
@@ -32,5 +36,11 @@ export class GroupViewComponent implements OnInit {
 
   setType(type: 'normal' | 'guide') {
     this.userName = type;
+  }
+
+  onUnsub() {
+    this.mapView.unsubscribeUser(this.groupKey, this.userName).subscribe(_ => {
+      this.router.navigate(['/']);
+    });
   }
 }

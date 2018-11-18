@@ -51,6 +51,10 @@ export class MapViewComponent implements OnInit, OnDestroy {
     this.locService.getLocalization(fn, error => console.log(error));
   }
 
+  unsubscribeUser(groupKey: string, userName: string) {
+    return this.mapService.unsubscribeFromGroup(groupKey, userName);
+  }
+
   ngOnDestroy(): void {
     clearInterval(this.timer);
     this.timer = undefined;
