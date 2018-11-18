@@ -9,7 +9,7 @@ import { HomepageService } from '../homepage.service';
 export class AddGroupComponent implements OnInit {
 
   groupId = undefined;
-  link = location.host + '/groupView/';
+  link = location.origin + '/groupView/';
   formSaved = false;
 
   constructor(private homeService: HomepageService) { }

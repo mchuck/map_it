@@ -1,7 +1,7 @@
 <div class="background-map">
   <div class="flex" *ngIf="!formSaved else successTemp">
-      <input class="form-control" class="input-primary" type=text name="nameGroup" [(ngModel)]="groupName" placeholder="group name">
-      <button class="btn btn-pr btn-primary" type="submit" (click)="onSave()" [disabled]="nameIsEmpty">Save</button>
+      <input #nameInput class="form-control" class="input-primary" type=text name="nameGroup" [(ngModel)]="groupName" placeholder="group name">
+      <button class="btn btn-pr btn-primary" type="submit" (click)="onSave(nameInput.value)" [disabled]="nameIsEmpty">Save</button>
       <button routerLink="/" routerLinkActive="active" class="btn btn-light" >Return</button>
   </div>
 </div>
