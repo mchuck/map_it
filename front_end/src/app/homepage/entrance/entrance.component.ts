@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { HomepageService } from '../homepage.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-entrance',
@@ -7,10 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EntranceComponent implements OnInit {
 
-  constructor() { }
+  constructor(private homeService: HomepageService, private router: Router) { }
 
   ngOnInit() {
   }
 
-
+  onJoinGroup(value: string) {
+    this.router.navigate(['/groupview', value]);
+  }
 }

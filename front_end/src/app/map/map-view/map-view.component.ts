@@ -3,6 +3,8 @@ import { MapService } from '../map.service';
 
 import { map, Map, tileLayer } from 'leaflet';
 import { MapCredentials } from '../models';
+import { LocalizationService } from 'src/app/localization.service';
+import { Coord } from '../models/coords';
 
 @Component({
   selector: 'app-map-view',
@@ -17,17 +19,23 @@ export class MapViewComponent implements OnInit {
 
   mapL: Map = undefined;
 
-  constructor(private mapService: MapService, private cred: MapCredentials) { }
+  constructor(private mapService: MapService, private cred: MapCredentials, private locService: LocalizationService) { }
 
   ngOnInit() {
-    this.fetchMap('');
+    this.locService.getLocalization((p) => this.onGetLocalizationSuccess(p), error => console.log(error));
   }
 
-  fetchMap(action: string) {
+  fetchMap(startingCoord: Coord) {
 
-  //this.mapL = map(this.mapContainer.nativeElement).setView([51.505, -0.09], 13);
+    this.mapL = map(this.mapContainer.nativeElement).setView([startingCoord.latitude, startingCoord.longitude], 15);
 
-   // tileLayer(`https://1.base.maps.api.here.com/maptile/2.1/maptile/newest/normal.day/{z}/{x}/{y}/256/png8?app_id=pYcVUdzXaKUNelaYX98n&app_code=e4Nq7y32dS96gUbBFbNllg`).addTo(this.mapL);
+    tileLayer(`https://1.base.maps.api.here.com/maptile/2.1/maptile/newest/` +
+      `reduced.day/{z}/{x}/{y}/256/png8?app_id=pYcVUdzXaKUNelaYX98n&app_code=e4Nq7y32dS96gUbBFbNllg`)
+      .addTo(this.mapL);
 
+  }
+
+  onGetLocalizationSuccess(position: Position) {
+    this.fetchMap(position.coords as Coord);
   }
 }
