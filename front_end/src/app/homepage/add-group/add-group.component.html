@@ -1,27 +1,28 @@
 <div class="background-map">
   <div class="flex" *ngIf="!formSaved else successTemp">
-      <input #nameInput class="form-control" class="input-primary" type=text name="nameGroup" [(ngModel)]="groupName" placeholder="group name">
-      <button class="btn btn-pr btn-primary" type="submit" (click)="onSave(nameInput.value)" [disabled]="nameIsEmpty">Save</button>
-      <button routerLink="/" routerLinkActive="active" class="btn btn-light" >Return</button>
+    <input #nameInput class="form-control" class="input-primary" type=text name="nameGroup" [(ngModel)]="groupName"
+      placeholder="group name">
+    <button class="btn btn-primary" type="submit" (click)="onSave(nameInput.value)" [disabled]="nameInput.value === ''">Save</button>
+    <button routerLink="/" routerLinkActive="active" class="btn btn-light">Return</button>
   </div>
 </div>
 <ng-template #successTemp>
   <div class="titleCode">
-  <div class="title">Group id: </div>
-  <div class="copy-group">
+    <div class="title">Group id: </div>
+    <div class="copy-group">
       <input class="copy-card" type="text" #inputCode1 value="{{ groupId }}" readonly>
       <button class="copy-button" [ngxClipboard]="inputCode1">COPY</button>
+    </div>
   </div>
-</div>
   <div class="titleCode">
-      <div class="title">Link: </div>
-      <div class="copy-group">
-        <input class="copy-card" type="text" #inputCode2 value="{{link}}" readonly>
-        <button class="copy-button" [ngxClipboard]="inputCode2">COPY</button>
-      </div>
+    <div class="title">Link: </div>
+    <div class="copy-group">
+      <input class="copy-card" type="text" #inputCode2 value="{{link}}" readonly>
+      <button class="copy-button" [ngxClipboard]="inputCode2">COPY</button>
+    </div>
   </div>
   <div class="flex">
-    <button class="floating" [routerLink]="['/groupview', groupId]">OPEN</button>
+    <button  class="btn btn-primary floating" [routerLink]="['/groupview', groupId]">OPEN</button>
   </div>
-    
+
 </ng-template>

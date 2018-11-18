@@ -9,7 +9,7 @@ export class LocalizationService {
 
   getLocalization(fn: PositionCallback, error: PositionErrorCallback) {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(fn, error);
+      navigator.geolocation.watchPosition(fn, error);
     } else {
       console.log('nie ma lokazliacji');
     }

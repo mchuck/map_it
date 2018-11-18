@@ -26,9 +26,8 @@ export class GroupViewComponent implements OnInit {
   ngOnInit() {
   }
 
-  createUser(name: string) {
-    this.userName = name;
-    this.hostService.joinToGroup({ name: name, type: this.userType }, this.groupKey).subscribe(res => {
+  createUser() {
+    this.hostService.joinToGroup({ name: this.userName, type: this.userType }, this.groupKey).subscribe(res => {
       this.userInserted = true;
     }, error => alert(error.message || error));
   }

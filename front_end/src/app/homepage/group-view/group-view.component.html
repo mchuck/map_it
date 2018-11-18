@@ -1,21 +1,21 @@
-
 <ng-container *ngIf="!userInserted else mapTemp">
   <div class="background-map">
-  <div class="flex paddingTop">
-  <input #nameInput type="text" class="input-primary" placeholder="User Name"/>
-  <div class="chooseType">
-  <div class="title">Role: </div>
-  <div class="btn-group mr-2 cusSelect" role="group" #typeInput aria-label="First group">
-      <button type="button" class="btn btn-success" (click)="setType('guide')">Guide</button>
-      <button type="button" class="btn btn-success" (click)="setType('normal')">Normal</button>
+    <div class="flex paddingTop">
+      <input [(ngModel)]="userName" type="text" class="input-primary" placeholder="User Name" />
+      <div class="chooseType">
+        <div class="title">Role: </div>
+        <div class="btn-group mr-2 cusSelect" role="group" #typeInput aria-label="First group">
+          <button type="button" class="btn btn-success" (click)="setType('guide')">Guide</button>
+          <button type="button" class="btn btn-success" (click)="setType('normal')">Normal</button>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="!userName || userName == ''" (click)="createUser()">Join
+        to group <span class="arrow">➞</span></button>
     </div>
   </div>
-  <button type ="submit" class="btn btn-primary" (click)="createUser(nameInput.value)">Join to group <span class="arrow">➞</span></button>
-</div>
-</div>
 </ng-container>
 
 <ng-template #mapTemp>
-    <app-map-view #mapView [groupName]="groupKey" [userName]="userName"></app-map-view>
-    <button class="btn btn-primary floating" (click)="onUnsub()"><i class="fas fa-arrow-left"></i></button>
+  <app-map-view #mapView [groupName]="groupKey" [userName]="userName" [userType]="userType"></app-map-view>
+  <button class="btn btn-primary floating" (click)="onUnsub()"><i class="fas fa-arrow-left"></i></button>
 </ng-template>

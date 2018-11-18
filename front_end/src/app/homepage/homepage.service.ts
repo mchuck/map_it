@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
 import { GroupInformation } from './models/new-group';
 import { User } from './models/user';
+import { of, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,9 @@ export class HomepageService {
   }
 
   getGroup(key: string): Observable<GroupInformation> {
+    if (!key || key.length === 0) {
+      return throwError({ error: { message: 'Value cant be empty!' } });
+    }
     return this.http.get<GroupInformation>(environment.API + '/group/' + key);
   }
 

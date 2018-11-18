@@ -15,7 +15,6 @@ export class EntranceComponent implements OnInit {
         private router: Router,
         private host: HomepageService) { }
 
-
     messageError: string;
     ngOnInit() {
     }
@@ -24,9 +23,9 @@ export class EntranceComponent implements OnInit {
         this.homeService.getGroup(value).subscribe((name: GroupInformation) => {
             this.router.navigate(['/groupview', value]);
         }, error => {
-            console.log(error);
-            this.messageError = error.error || "Unknown error";
-            setTimeout(() => this.messageError = null, 3000)
+          console.log(error);
+            this.messageError = error.message || 'Unknown error';
+            setTimeout(() => this.messageError = null, 3000);
         });
     }
 }
