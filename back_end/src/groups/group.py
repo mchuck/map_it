@@ -32,10 +32,14 @@ class Group(object):
  
     def add_participant(self, participant):
         if participant.name in self.participants:
-            raise Exception('Participant with the name: {} already exists'\
+            raise Exception('Participant with the name: {} already exists' \
                             .format(participant.name))
         else:
-            self.participants[participant.name] = participant
+            if participant.type == 'guide' and \
+               not all([p.type=='normal' for p in self.participants.values()]):
+                raise Exception('There can only be one guide per room')
+            else:                
+                self.participants[participant.name] = participant
 
     def delete_participant(self, participant_name):
         if participant_name in self.participants:
