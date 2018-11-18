@@ -23,7 +23,12 @@
     z-index: 999;
     bottom: 20px;
     left: 20px;
-    height: 60px;
-    width: 60px;
-    border-radius: 50%;
+    color: #fff;
+    width: 40px;
+    height:40px;
+    border-radius:50%;
+    background-color: #228120;
+    -webkit-box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.12);
+    -moz-box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.12);
+    box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.12);
 }
