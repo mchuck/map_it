@@ -12,14 +12,19 @@ const iconNormal = divIcon({ className: 'div-icon normal' });
 
 const iconGuide = divIcon({ className: 'div-icon guide' });
 
-const iconSVG = icon({
-    iconUrl: 'assets/images/marker.svg',
-    iconSize: [50, 50]
+const iconSVGMe = icon({
+    iconUrl: 'assets/images/marker-me.svg',
+    iconSize: [25, 25]
 });
 
 const iconSVGGuide = icon({
     iconUrl: 'assets/images/marker-guide.svg',
-    iconSize: [50, 50]
+    iconSize: [25, 25]
+});
+
+const iconSVGOther = icon({
+    iconUrl: 'assets/images/marker-other.svg',
+    iconSize: [25, 25]
 });
 
 @Component({
@@ -61,38 +66,31 @@ export class MapViewComponent implements OnInit, OnDestroy {
             `reduced.day/{z}/{x}/{y}/256/png8?app_id=pYcVUdzXaKUNelaYX98n&app_code=e4Nq7y32dS96gUbBFbNllg`)
             .addTo(this.mapL);
 
-        this.locService.getLocalization((p) => { this.currentPosition = p },
+        this.locService.getLocalization((p) => { this.currentPosition = p; },
             error => console.log(error));
 
         this.localizationHandler = this.locService.watchPosition(
-            (p) => { this.currentPosition = p },
+            (p) => { this.currentPosition = p; },
             error => console.log(error));
 
         this.timer = setInterval(() => this.onGetLocalizationSuccess(this.currentPosition), 1000);
     }
 
-    getIcon(type: 'guide' | 'normal') {
-        return type === 'guide' ? iconGuide : iconNormal;
-    }
-
     getIconSVG(type: 'guide' | 'normal') {
-        return type === 'guide' ? iconSVGGuide : iconSVG;
+        return type === 'guide' ? iconSVGGuide : iconSVGOther;
     }
 
     onGetLocalizationSuccess(position: Position) {
-        console.log('inites')
         if (this.isLoading || !position) {
             return;
         }
-        console.log('exited')
+
         this.isLoading = true;
 
         this.mapService.updateLocalization(this.groupName, this.userName, position.coords as Coord)
             .subscribe(res => {
                 this.updateMarkers(res.participants);
-                // this.getIcon(user.type)
                 if (this.markersLayer) {
-                    console.log('removed')
                     this.mapL.removeLayer(this.markersLayer);
                 }
 
@@ -101,7 +99,7 @@ export class MapViewComponent implements OnInit, OnDestroy {
                     this.suitMapToMarkers();
                 }
                 this.isLoading = false;
-            }, error => this.isLoading = false);
+            }, _ => this.isLoading = false);
     }
 
     updateMarkers(participants: any) {
@@ -111,8 +109,13 @@ export class MapViewComponent implements OnInit, OnDestroy {
             if (!userPosition) {
                 continue;
             }
+            let iconTemplate = this.getIconSVG(user.type);
+
+            if (user.name === this.userName) {
+                iconTemplate = iconSVGMe;
+            }
             this.markers.push(marker([userPosition.lat, userPosition.lon],
-                { icon: this.getIconSVG(user.type) })
+                { icon: iconTemplate })
                 .bindPopup(this.createMarkerPopupContent(user)));
         }
     }
@@ -128,10 +131,10 @@ export class MapViewComponent implements OnInit, OnDestroy {
     }
 
     createMarkerPopupContent(user) {
-        if(user.phone){return `&#128100 <b>${user.name}</b> </br>&#9742 ${user.phone}`}
-        else{
-            return `&#128100 <b>${user.name}</b>`;
-        }
+        if (user.phone) { return `&#128100 <b>${user.name}</b> </br>&#9742 ${user.phone}`; }
+
+        return `&#128100 <b>${user.name}</b>`;
+
     }
 
 
