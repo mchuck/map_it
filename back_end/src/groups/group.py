@@ -1,4 +1,7 @@
 import re
+import logging
+
+LOGGER = logging.getLogger(__name__)
 
 class Group(object):
 
