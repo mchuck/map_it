@@ -1,6 +1,11 @@
 <ng-container *ngIf="!userInserted else mapTemp">
   <div class="background-map">
     <div class="flex paddingTop">
+      <div class="error-class" *ngIf="messageError" >
+        <div class="text-error">
+          {{messageError}}
+        </div>
+      </div>   
       <input [(ngModel)]="userName" type="text" class="input-primary" placeholder="User Name" />
       <div class="chooseType">
         <div class="title">Role: </div>
