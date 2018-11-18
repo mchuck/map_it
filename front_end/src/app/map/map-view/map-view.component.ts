@@ -55,6 +55,7 @@ export class MapViewComponent implements OnInit, OnDestroy {
     private isLoading = false;
     private timer: any;
     public locationPending = true;
+    private noBounding = false;
 
     constructor(private mapService: MapService, private cred: MapCredentials, private locService: LocalizationService) { }
 
@@ -127,7 +128,11 @@ export class MapViewComponent implements OnInit, OnDestroy {
 
                 if (this.markers) {
                     this.markersLayer = layerGroup(this.markers).addTo(this.mapL);
-                    this.suitMapToMarkers();
+                    if(!this.noBounding){
+                       this.suitMapToMarkers();
+                       this.noBounding=true; 
+                    }
+                    
                 }
                 this.isLoading = false;
             }, _ => this.isLoading = false);
@@ -183,7 +188,6 @@ export class MapViewComponent implements OnInit, OnDestroy {
     unsubscribeUser(groupKey: string, userName: string) {
         return this.mapService.unsubscribeFromGroup(groupKey, userName);
     }
-
     suitMapToMarkers() {
         const group = featureGroup(this.markers);
 
